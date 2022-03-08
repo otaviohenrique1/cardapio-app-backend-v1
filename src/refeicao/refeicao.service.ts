@@ -1,9 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateRefeicaoDto } from './dto/create-refeicao.dto';
 import { UpdateRefeicaoDto } from './dto/update-refeicao.dto';
+import { Refeicao } from './entities/refeicao.entity';
+import { RefeicaoRepository } from './entities/refeicao.repository';
 
 @Injectable()
 export class RefeicaoService {
+  constructor(
+    @InjectRepository(RefeicaoRepository)
+    private refeicaoRepository: Repository<Refeicao>,
+  ) {}
+
   create(createRefeicaoDto: CreateRefeicaoDto) {
     return 'This action adds a new refeicao';
   }
