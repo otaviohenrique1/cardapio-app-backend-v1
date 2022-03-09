@@ -1,32 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateRefeicaoDto } from './dto/create-refeicao.dto';
 import { UpdateRefeicaoDto } from './dto/update-refeicao.dto';
 import { Refeicao } from './entities/refeicao.entity';
-import { RefeicaoRepository } from './entities/refeicao.repository';
+import { RefeicaoRepository } from './refeicao.repository';
 
 @Injectable()
 export class RefeicaoService {
   constructor(
     @InjectRepository(RefeicaoRepository)
-    private refeicaoRepository: Repository<Refeicao>,
+    private refeicaoRepository: RefeicaoRepository,
   ) {}
 
-  create(createRefeicaoDto: CreateRefeicaoDto) {
-    return 'This action adds a new refeicao';
+  async create(createRefeicaoDto: CreateRefeicaoDto): Promise<Refeicao> {
+    return this.refeicaoRepository.create(createRefeicaoDto);
   }
 
-  findAll() {
-    return `This action returns all refeicao`;
+  async findAll(): Promise<Refeicao[]> {
+    return this.refeicaoRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} refeicao`;
+  async findOne(id: number): Promise<Refeicao> {
+    return this.refeicaoRepository.findOne(id);
   }
 
-  update(id: number, updateRefeicaoDto: UpdateRefeicaoDto) {
-    return `This action updates a #${id} refeicao`;
+  async update(id: number, updateRefeicaoDto: UpdateRefeicaoDto) {
+    return this.refeicaoRepository.update(id, updateRefeicaoDto);
   }
 
   remove(id: number) {

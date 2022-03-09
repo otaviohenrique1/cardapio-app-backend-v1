@@ -6,6 +6,7 @@ import {
   BaseEntity,
   CreateDateColumn,
   ManyToOne,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -28,7 +29,9 @@ export class Refeicao extends BaseEntity {
   @CreateDateColumn()
   data_cadastro: Date;
 
-  // Colocar como chave estangeira
+  @UpdateDateColumn()
+  data_modificacao_cadastro: Date;
+
   @ManyToOne(() => Usuario, (usuario) => usuario.refeicoes)
   usuario: Usuario;
 }
