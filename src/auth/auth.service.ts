@@ -3,6 +3,7 @@ import {
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUsuarioDto } from 'src/usuario/dto/create-usuario.dto';
 import { Usuario } from 'src/usuario/entities/usuario.entity';
@@ -15,6 +16,7 @@ export class AuthService {
   constructor(
     @InjectRepository(UsuarioRepository)
     private usuarioRepository: UsuarioRepository,
+    private jwtService: JwtService,
   ) {}
 
   async signUp(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
@@ -34,5 +36,12 @@ export class AuthService {
     if (user === null) {
       throw new UnauthorizedException('Credenciais inválidas');
     }
+
+    const jwtPayload = {
+      id: user.id,
+    };
+    const token = await this.jwtService.sign(jwtPayload);
+
+    return { token };
   }
 }
